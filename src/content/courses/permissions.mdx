@@ -1,0 +1,54 @@
+## Det lærer du
+
+- At læse Linux-rettigheder for ejer, gruppe og andre.
+- At forklare forskellen på læse-, skrive- og udførelsesadgang.
+- At bruge chmod til at beskytte en øvelsesfil.
+
+## Hvorfor det betyder noget
+
+En server kan have stærke adgangskoder og stadig lade alle lokale brugere læse en fil med hemmeligheder. Filrettigheder er en af de konkrete grænser mellem brugere og data.
+
+## Forstå begrebet
+
+Når du skriver `ls -l`, viser Linux blandt andet filtype og rettigheder:
+
+```text
+-rw-r----- 1 anna studie 24 Oct 22 10:00 noter.txt
+```
+
+Det første tegn er filtypen: `-` er en almindelig fil, mens `d` er en mappe. De næste ni tegn er tre grupper med tre tegn i hver:
+
+- **Ejer: rw-** — Anna kan læse og skrive.
+- **Gruppe: r--** — medlemmer af gruppen studie kan læse.
+- **Andre: ---** — øvrige brugere har ingen adgang gennem disse bits.
+
+Bogstaverne betyder `r` for read, `w` for write og `x` for execute. For en mappe betyder `x`, at man kan gå gennem mappen og tilgå kendte navne. Mapper kræver derfor andre overvejelser end almindelige tekstfiler. Sletning afhænger primært af rettighederne på den overordnede mappe, ikke kun af filens skrivebit.
+
+## Et eksempel fra virkeligheden
+
+Du gemmer en privat note i `secret.txt`. Kommandoen `chmod 600 secret.txt` giver ejeren læse- og skriveadgang og fjerner gruppe- og andres adgang gennem de almindelige rettighedsbits. Tallet 6 er 4 (læse) plus 2 (skrive). De to nuller betyder ingen adgang til henholdsvis gruppe og andre.
+
+> Filrettigheder er ikke kryptering. Root og andre privilegerede processer kan stadig have adgang. En disk, der læses uden om dit operativsystem, kræver separat beskyttelse.
+
+RBAC organiserer adgang gennem roller, eksempelvis læser og redaktør. ACL kan give mere detaljerede rettigheder til navngivne brugere eller grupper. Her starter vi med de almindelige Unix-rettigheder; eksisterende ACL-regler kan gøre adgangsvurderingen mere kompleks.
+
+## Prøv selv
+
+Brug kun en ny øvelsesfil i dit eget lokale Linux-miljø:
+
+```bash
+mkdir -p security-lab
+cd security-lab
+touch secret.txt
+ls -l secret.txt
+chmod 600 secret.txt
+ls -l secret.txt
+```
+
+`mkdir` opretter mappen, `cd` skifter til den, og `touch` opretter en tom fil, hvis den ikke findes. Den sidste linje bør begynde med `-rw-------`; ejer, gruppe og dato varierer. Et ekstra `+` kan angive en ACL.
+
+Sammenlign rettighederne før og efter. Forklar, hvem der mistede adgang. Din oprindelige fil kan allerede have haft restriktive rettigheder, afhængigt af miljøets umask.
+
+## Kort fortalt
+
+Læs de tre grupper: ejer, gruppe, andre. Giv kun de rettigheder, opgaven kræver. `600` er et almindeligt valg til en privat tekstfil, men det erstatter ikke kryptering eller andre sikkerhedskontroller.

@@ -1,0 +1,59 @@
+## Det lærer du
+
+Du lærer forskellen på at låse en adgangskode, begrænse en login-shell og afvikle en konto. Du lærer også, hvad brugerlogning kan fortælle.
+
+## Hvorfor det betyder noget
+
+En konto mistænkes for misbrug. Du vil begrænse adgangen uden straks at slette filer og miste spor. Først må du forstå de forskellige adgangsveje.
+
+## En konto er mere end et password
+
+/etc/passwd indeholder blandt andet brugernavn, UID, GID, hjemmemappe og shell. Adgangskodehashes ligger normalt i den beskyttede /etc/shadow, når lokale shadow-adgangskoder anvendes. Eksterne identitetskilder kan have andre lagringssteder.
+
+Undersøg din egen bruger:
+
+```bash
+id
+getent passwd "$(whoami)"
+```
+
+getent spørger systemets konfigurerede navnetjenester og er mere generelt end kun at læse én lokal fil.
+
+## Tre forskellige begrænsninger
+
+**Låst password:** passwd -l låser passwordbaseret autentifikation. Det er ikke i sig selv en garanti for, at hele kontoen er deaktiveret. SSH-nøgler eller andre metoder kan stadig virke afhængigt af opsætningen.
+
+**nologin-shell:** En shell som /usr/sbin/nologin afviser almindelige interaktive shell-login. Det dækker ikke nødvendigvis alle tjenester og adgangsformer.
+
+**Adgangsafvikling:** En fuld offboarding kan kræve kontoudløb, fjernelse af nøgler, ophævelse af sessions og tokens samt ændringer i eksterne systemer.
+
+> Ingen enkelt lokal kommando kan antages at afslutte alle aktive sessioner og adgangsveje i en organisation.
+
+## Et eksempel
+
+En tidligere konsulent har Linux-password, SSH-nøgle og API-token. Administratoren låser passwordet og konstaterer, at password-login fejler. Det beviser kun, at én vej er lukket.
+
+En bedre testplan undersøger alle tre veje, aktive sessioner og relevante logs. Arbejdsfiler skal overdrages uden at gøre kontoen til en fælles, anonym konto.
+
+## Hvad viser logning?
+
+Loginlogs viser autentifikationsforsøg og sessioner. Process accounting, eksempelvis acct og lastcomm, kan registrere oplysninger om afsluttede processer, hvis funktionen var aktiveret på forhånd. Det er ikke nødvendigvis en komplet optagelse af argumenter, filændringer eller brugerens hensigt.
+
+En kommando i en log er et spor. Den beviser ikke alene, hvilken person der udførte handlingen, især hvis konti deles.
+
+## Prøv selv
+
+Lav en testplan for en labkonto med password og SSH-nøgle. Udfør ikke spærringen på din eneste administratorkonto.
+
+<details>
+<summary>Se et muligt svar</summary>
+
+Test begge loginformer før ændringen. Anvend begrænsningen i en disponibel VM med separat redningskonto. Test hver loginform igen, undersøg eksisterende sessioner, og notér præcis, hvad kontrollen stopper. Afprøv en kontrolleret gendannelse.
+
+</details>
+
+## Kort fortalt
+
+Låst password er ikke nødvendigvis låst konto. Find adgangsvejene, begræns dem bevidst, og kontrollér resultatet.
+
+Reference: [passwd-manualen](https://man7.org/linux/man-pages/man1/passwd.1.html).

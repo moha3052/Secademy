@@ -1,0 +1,65 @@
+## Det lærer du
+
+Du lærer at bruge roller som udgangspunkt for adgang og at læse en ACL inklusive dens maske.
+
+## Hvorfor det betyder noget
+
+Projektgruppen skal kunne redigere en mappe, mens revisorer kun skal læse. Almindelige Unix-bits har kun én gruppe pr. fil. En ACL kan beskrive flere navngivne grupper uden at give alle andre adgang.
+
+## Roller først
+
+RBAC tildeler adgang til roller og knytter brugere til rollerne. Linux-grupper kan repræsentere roller. Det gør ændringer lettere, når en medarbejder skifter opgave.
+
+Men medlemskaber skal vedligeholdes. Hvis alle tidligere roller beholdes, ophobes rettigheder. Midlertidig adgang skal have en ansvarlig og et udløb.
+
+## Læs en ACL
+
+Dette er et konstrueret eksempel på en mappe:
+
+```text
+user::rwx
+group::r-x
+group:projekt:rwx
+group:revision:r-x
+mask::r-x
+other::---
+```
+
+Ejeren har rwx. Projektgruppen har en deklareret rwx-post, men masken er r-x. Den effektive adgang bliver derfor r-x: Masken sætter loft for navngivne brugere og gruppeposter. Ejeren og other-posten begrænses ikke af den.
+
+Det forklarer fejlen “jeg gav skriveadgang, men brugeren kan ikke skrive”. Se både posten og effektiv adgang i getfacl. Undersøg også overordnede mapper og brugerens faktiske grupper.
+
+## Mapper er ikke tekstfiler
+
+På en mappe giver r mulighed for at liste navne, x mulighed for at gå gennem mappen og tilgå kendte navne, og w mulighed for at ændre indholdet sammen med nødvendige øvrige rettigheder.
+
+Sletning afhænger primært af mappens rettigheder og eventuelle ekstra regler. Giv ikke ukritisk x til alle tekstfiler ved rekursive ændringer.
+
+## Access ACL og default ACL
+
+En access ACL gælder objektet selv. En default ACL på en mappe bruges ved oprettelse af nye objekter. Den ændrer ikke automatisk eksisterende filer. Oprettelsesmode begrænser også nedarvede rettigheder, så en almindelig ny tekstfil ikke automatisk bliver eksekverbar.
+
+I en eksisterende lokal øvelsesmappe kan du læse rettigheder med:
+
+```bash
+getfacl ./projektmappe
+```
+
+Hvis værktøjet mangler, er ACL-værktøjerne ikke installeret. Undersøg først miljøet frem for at ændre systemmapper.
+
+## Prøv selv
+
+Kan et almindeligt medlem af projektgruppen oprette en fil i eksemplets mappe?
+
+<details>
+<summary>Se forklaringen</summary>
+
+Ikke gennem den viste gruppeadgang: Masken fjerner w. Hvis skriveadgang er tilsigtet, skal både posten og masken tillade den. En ændret maske kan påvirke flere poster, så gennemgå dem samlet.
+
+</details>
+
+## Kort fortalt
+
+RBAC organiserer adgangen. ACL udtrykker tilladelserne. Masken begrænser effektiv adgang. Rettigheder for eksisterende og fremtidige filer er ikke det samme.
+
+Uddybning: [Linux ACL-manualen](https://man7.org/linux/man-pages/man5/acl.5.html).

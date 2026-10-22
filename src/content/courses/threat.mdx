@@ -1,0 +1,40 @@
+## Det lærer du
+
+- At identificere aktiver, trusler og tillidsgrænser.
+- At koble en sikkerhedskontrol til en konkret risiko.
+- At afgrænse et lovligt, isoleret øvelsesmiljø.
+
+## Hvorfor det betyder noget
+
+Hvis du starter med at installere sikkerhedsværktøjer uden at kende problemet, kan du ende med at beskytte det forkerte. Trusselsmodellering hjælper dig med at forstå, hvad du vil beskytte, mod hvem og hvorfor.
+
+## Forstå begrebet
+
+Et **aktiv** er noget værdifuldt: personoplysninger, adgangsnøgler eller en tjeneste, som skal fungere. En **trussel** er en mulig årsag til skade. En **sårbarhed** er en svaghed, der kan udnyttes. **Risiko** beskriver kombinationen af sandsynlighed og konsekvens i din konkrete situation.
+
+En **tillidsgrænse** er et sted, hvor data bevæger sig mellem områder med forskellige sikkerhedsantagelser. Når en browser sender data til en server, må serveren ikke stole på, at browseren har valideret dem korrekt.
+
+Du kan starte med fire spørgsmål:
+
+1. Hvad bygger vi, og hvilke data bevæger sig hvorhen?
+2. Hvad kan gå galt?
+3. Hvilke kontroller begrænser problemerne?
+4. Hvordan undersøger vi, om kontrollerne virker?
+
+STRIDE er en støtte til idéarbejdet: identitetsforfalskning, manipulation, benægtelse, informationslækage, tjenestenægtelse og privilegieeskalering. Kategorierne hjælper dig med at finde mulige problemer; de er ikke en automatisk risikovurdering.
+
+## Et eksempel fra virkeligheden
+
+En studieapp lader brugeren sende et bruger-id sammen med et quizresultat. Hvis serveren stoler på det id, kan én bruger måske ændre en andens resultat. Kontrollen er at udlede identiteten fra den verificerede session og kontrollere ejerskab på serveren og i databasen. En test med to forskellige konti kan undersøge, om grænsen virker.
+
+## Prøv selv
+
+Tegn tre bokse: browser, applikationsserver og database. Tegn pilene, hvor quizbesvarelser og resultater bevæger sig. Markér grænserne, og skriv én ting ved hver pil, som modtageren skal kontrollere.
+
+Planlæg derefter et lokalt lab på papir: ét Linux-miljø, ingen følsomme filer og et snapshot eller anden mulighed for at gendanne. Hvis du senere kører netværksøvelser, skal de være afgrænset til systemer, som du ejer eller udtrykkeligt har tilladelse til at teste. Et lokalt program er ikke automatisk isoleret; netværksindstillingerne skal også passe til øvelsen.
+
+> Denne lektion udfører ingen scanninger. En tegnet trusselsmodel er allerede en praktisk sikkerhedsopgave.
+
+## Kort fortalt
+
+Begynd med værdierne og dataflowet. Find mulige problemer, vælg målrettede kontroller, og planlæg konkrete tests. Revidér modellen, når systemet ændrer sig.

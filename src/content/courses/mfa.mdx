@@ -1,0 +1,52 @@
+## Det lærer du
+
+Du lærer autentifikation kontra autorisation, hvad en faktor er, og hvordan PAM kobler autentifikationsmoduler til Linux-tjenester.
+
+## Hvorfor det betyder noget
+
+En stjålet adgangskode kan være nok til at overtage en konto. Men to felter med hemmelige svar er ikke nødvendigvis to faktorer.
+
+## Først identitet, så adgang
+
+Autentifikation kontrollerer de krævede legitimationsmidler. Autorisation afgør derefter, hvilke handlinger kontoen må udføre. Et korrekt login giver derfor ikke automatisk adgang til alle filer.
+
+## Tre typer faktor
+
+- Noget du ved, eksempelvis et password.
+- Noget du har, eksempelvis en sikkerhedsnøgle eller kontrol over en autentifikator.
+- Noget du er, eksempelvis et biometrisk kendetegn i en konkret løsning.
+
+Password plus PIN er to hemmeligheder af samme type. Login via en ekstern udbyder er heller ikke automatisk en ekstra faktor: Det afhænger af det faktiske autentifikationsforløb.
+
+## To eksempler
+
+**Password + TOTP:** App og server bruger en delt hemmelighed og tiden til at beregne engangskoder. Koden skifter, men kan stadig opsnappes og videresendes i et phishingforløb. Den delte hemmelighed og dens backup skal beskyttes.
+
+**WebAuthn-sikkerhedsnøgle:** Den kryptografiske respons bindes til den relevante tjeneste/origin. Det modstår mange phishingforløb, som en manuelt indtastet kode ikke modstår. Gendannelsesvejen skal stadig beskyttes.
+
+En almindelig USB-hukommelse er ikke automatisk en kryptografisk sikkerhedsnøgle. Biometri har også fejlmuligheder; den er ikke en universel garanti for identitet.
+
+## Hvor passer PAM ind?
+
+PAM betyder **Pluggable Authentication Modules**. En kompatibel tjeneste kan bruge en modulstak til autentifikation, kontokontrol, passwordhåndtering og sessionsopsætning.
+
+Tænk på stakken som kontrolpunkter: Hvilke skal være opfyldt, og hvad sker der, hvis ét fejler? Rækkefølge og kontrolflag betyder noget. Forkert opsætning kan låse administratoren ude eller give en utilsigtet genvej.
+
+PAM påvirker kun de relevante tjenester og loginveje, der bruger konfigurationen. Et ekstra modul i én stak beskytter ikke automatisk hele systemet.
+
+## Prøv selv
+
+Planlæg ekstra autentifikation til SSH i en lab-VM.
+
+<details>
+<summary>Se en testplan</summary>
+
+Tag snapshot og bevar konsoladgang. Brug en testkonto. Undersøg først tilladte SSH-loginmetoder. Test forkert password, forkert anden faktor, korrekt kombination og eventuelle nøglebaserede veje. Afprøv gendannelse. En fungerende test i én tjeneste beviser ikke, at alle tjenester bruger samme politik.
+
+</details>
+
+## Kort fortalt
+
+MFA skal give en reel ekstra barriere. PAM er en integrationsmekanisme, ikke en garanti for sikker politik. Test den forventede vej og alternative adgangsveje.
+
+Reference: [NISTs autentifikationsvejledning](https://pages.nist.gov/800-63-4/sp800-63b.html).

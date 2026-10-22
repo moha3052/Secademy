@@ -1,0 +1,65 @@
+## Det lærer du
+
+Du lærer at undersøge en PCAP systematisk, bruge displayfiltre og holde observation og hypotese adskilt.
+
+## Hvorfor det betyder noget
+
+Et meget snævert filter kan skjule den hændelse, du prøver at forstå. Start med overblik og indsnævr derefter.
+
+## En arbejdsgang
+
+1. Bevar originalen. Arbejd med en kopi, og notér filnavn, tidszone og optagelsespunkt.
+2. Undersøg omfanget: varighed, antal pakker og Protocol Hierarchy.
+3. Brug Endpoints og Conversations til at finde parterne.
+4. Afprøv en hypotese med et relevant filter.
+5. Dokumentér tid, pakkenummer, konkrete felter og konklusion.
+
+Et filhash kan hjælpe med at dokumentere, hvilken fil du arbejdede med. Det beviser ikke alene, at fortolkningen er korrekt.
+
+## To forskellige slags filter
+
+Et displayfilter skjuler pakker i visningen, men sletter dem ikke fra den åbne capture. Et capturefilter bestemmer, hvad der optages, og bruger en anden syntaks.
+
+Eksempler på displayfiltre:
+
+```text
+dns
+tcp.port == 8088
+ip.addr == 192.0.2.10
+(dns || icmp) && !(ip.addr == 192.0.2.30)
+```
+
+AND kræver begge betingelser; OR kræver mindst én. Parenteser gør hensigten tydelig. ip.addr gælder IPv4-felter, ikke automatisk adresser inde i ARP.
+
+## Et eksempel på en forsigtig konklusion
+
+Du ser et DNS-opslag og et svar. Derefter opretter klienten en TCP-forbindelse til en returneret adresse.
+
+**Observation:** Klienten forespurgte navnet og oprettede en forbindelse.
+
+**Mulig forklaring:** En applikation brugte DNS-svaret til at kontakte tjenesten.
+
+**For stærk konklusion:** “Brugeren læste denne bestemte side.” En baggrundsproces kan have lavet opslaget, og krypteret trafik afslører ikke nødvendigvis indholdet.
+
+Follow TCP Stream samler forbindelsens data, men gør ikke TLS-indhold automatisk læsbart.
+
+## Når du ikke ser noget
+
+Du kan have valgt forkert interface, startet for sent, filtreret forkert eller stå på en switchport, som ikke ser andres unicasttrafik. Mirror/SPAN kræver korrekt opsætning. Ingen pakker i din visning er ikke bevis for ingen trafik på nettet.
+
+## Prøv selv
+
+Filteret ip.addr == 192.0.2.10 && arp giver ingen resultater. Betyder det, at værten ikke bruger ARP?
+
+<details>
+<summary>Se forklaringen</summary>
+
+Nej. ARP har ikke det normale IPv4-felt ip.addr. Start med arp alene, og undersøg protokollens egne felter. Kontrollér derefter optagelsespunkt og tidsrum, før du drager en konklusion om fravær.
+
+</details>
+
+## Kort fortalt
+
+Overblik før detaljer. Filtre skal passe til protokollen. Dokumentér både observationen og begrænsningen.
+
+Reference: [Wiresharks filtervejledning](https://www.wireshark.org/docs/wsug_html_chunked/ChWorkBuildDisplayFilterSection.html).

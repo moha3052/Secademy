@@ -1,0 +1,22 @@
+/** Teaching materials inform the topic selection; lessons are original explanations. */
+export const lessonSources: Record<string, string> = {
+  "sikkerhedens-tre-soejler": "SystemSik 01 · Introduktion",
+  sikkerhedspolitikker: "SystemSik 02 · Sikkerhedspolitikker",
+  "hash-og-diskkryptering": "SystemSik 02 · Integritet og kryptering",
+  "mindste-privilegium": "SystemSik 03 · Brugere, root og sudo",
+  "angreb-og-forsvar": "SystemSik 04 · Angreb",
+  "linux-filrettigheder": "SystemSik 05 · Filer og adgangskontrol",
+  "rbac-og-acl": "SystemSik 05 · RBAC og ACL",
+  "konti-og-logning": "SystemSik 06 · Brugerkonti",
+  "pam-og-mfa": "SystemSik 06 · Autentifikation og MFA",
+  trusselsmodellering: "NCS 1 · Trusler og sikkerhedsmodeller",
+  "docker-og-labmiljoe": "NCS 1 · Lab-opsætning og Docker-øvelse",
+  "netvaerkets-grundsten": "NCS 2 · Netværksgrundlag",
+  trafiktyper: "NCS 2 · Kommunikation og adressering",
+  "wireshark-og-beviser": "NCS 2 · Wireshark og labøvelser",
+  "switching-og-arp": "NCS 3 · Switching og ARP",
+  "dhcp-og-snooping": "NCS 3 · DHCP og netværkskontroller",
+  "radius-og-8021x": "NCS 3 · 802.1X og RADIUS-lab",
+  "stp-og-loops": "NCS 4 · STP og labøvelser",
+  "vlan-og-trunks": "NCS 4 · VLAN og labøvelser",
+};

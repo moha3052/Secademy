@@ -1,0 +1,52 @@
+## Det lærer du
+
+Du lærer unicast, broadcast, multicast og anycast, og hvorfor modtageren skal forstås på det rigtige netværkslag.
+
+## Hvorfor det betyder noget
+
+Alt, du ser i en capture, er ikke rettet mod din computer. Trafik kan være til én vært, et lokalt broadcastdomæne eller en gruppe.
+
+## Fire modtagermodeller
+
+**Unicast:** Én afsender til én konkret modtager, eksempelvis en almindelig SSH-forbindelse.
+
+**Broadcast:** Til alle i det relevante lokale broadcastdomæne. Ethernet bruger ff:ff:ff:ff:ff:ff som destination. En ARP-forespørgsel er et typisk eksempel. IPv6 bruger ikke broadcast.
+
+**Multicast:** Til en gruppe. IPv4 bruger blandt andet IGMP til gruppemedlemskab; IPv6 bruger MLD. IPv4-multicastadresser ligger i 224.0.0.0/4.
+
+**Anycast:** Flere instanser annoncerer samme adresse. Routing vælger én instans efter topologi og politik. “Nærmest” betyder routingmæssigt, ikke nødvendigvis kortest fysisk afstand.
+
+## Et konkret eksempel
+
+En klasse ser samme lokale live-stream. Separate unicaststrømme kan kræve en kopi pr. modtager. Multicast kan distribuere trafik til en gruppe, hvis infrastrukturen og applikationen understøtter det.
+
+IGMP snooping kan hjælpe en switch med at lære, på hvilke porte der er IPv4-multicastmodtagere. Det reducerer unødvendig flooding, men er ikke i sig selv adgangskontrol eller kryptering.
+
+Anycast løser et andet problem: Klienten skal nå én passende serviceinstans, ikke en hel modtagergruppe.
+
+## IP og Ethernet siger forskellige ting
+
+En klient på 192.0.2.10 sender til en server uden for sit subnet. IP-destinationen er serveren. Ethernet-destinationen på første hop er normalt den lokale gateways MAC.
+
+Én pakke kan derfor være unicast på begge lag, men indeholde adresser til forskellige punkter i rejsen: IP beskriver den endelige destination, mens linklaget leverer til næste hop.
+
+ARP ligger ikke inde i IPv4. Et filter på ip.addr finder derfor ikke automatisk relevante ARP-beskeder.
+
+## Prøv selv
+
+Klassificér:
+
+1. Destinations-MAC ff:ff:ff:ff:ff:ff og protokol ARP.
+2. Destinations-IP 239.8.8.8.
+3. Flere DNS-instanser annoncerer samme adresse, men klientens forespørgsel når én af dem.
+
+<details>
+<summary>Se forklaringen</summary>
+
+Første er Ethernet-broadcast. Anden er en IPv4-multicastdestination. Tredje beskriver anycast. En enkelt capture afslører ikke nødvendigvis, at en adresse er anycast; du skal også kende routingopsætningen.
+
+</details>
+
+## Kort fortalt
+
+Klassificér på det lag, du undersøger. Multicast handler om en gruppe. Anycast handler om valg mellem instanser. At se en pakke er ikke det samme som at være dens tilsigtede modtager.

@@ -1,0 +1,55 @@
+## Det lærer du
+
+Du lærer de tre roller i 802.1X og forskellen på standardmekanismen og undervisningens simulerede RADIUS-lab.
+
+## Hvorfor det betyder noget
+
+En MAC-adresse kan ændres. Hvis adgang kræver identitet, er MAC-kendskab derfor ikke nødvendigvis tilstrækkeligt.
+
+## Tre roller
+
+**Supplicant:** Klienten, der ønsker adgang.
+
+**Authenticator:** Enheden ved kanten, eksempelvis switch eller access point, som håndhæver adgangsbeslutningen.
+
+**Authentication server:** Tjenesten, som kontrollerer autentifikationen og bidrager med accept, afvisning og eventuelle adgangsattributter. RADIUS anvendes ofte.
+
+Klienten leverer autentifikationsmateriale, authenticatoren formidler og styrer adgangen, og serveren kontrollerer materialet. Serverens accept og fungerende datatrafik er to forskellige observationer.
+
+## Hvordan hænger det sammen?
+
+I et almindeligt 802.1X-forløb bruges EAPOL mellem supplicant og authenticator. Authenticatoren kan transportere EAP videre gennem RADIUS. Den valgte EAP-metode bestemmer, hvordan parterne autentificeres.
+
+Tænk på en reception, der kontakter en kontrolfunktion og derefter åbner en dør. Analogien forklarer rollerne, men ikke den kryptografiske sikkerhed.
+
+## Vigtigt om simulatoren
+
+RADIUS-labets README beskriver en simulation af kontrolforløbet. Klienten sender loginoplysninger via HTTP til en authenticator, som spørger FreeRADIUS over UDP 1812. Labbet implementerer ikke Ethernet EAPOL.
+
+Det gør labbet nyttigt til at observere afvist login, accepteret login og ændret trafikadgang. Det beviser ikke, at en fysisk switch er korrekt konfigureret til 802.1X. HTTP-delen er ikke krypteret: Brug kun disponible laboplysninger.
+
+## Et forklarligt forsøg
+
+Lav kolonner for før login, efter afvist login og efter accepteret login:
+
+- Kan klienten nå autentifikationspunktet?
+- Kan klienten nå den beskyttede tjeneste?
+- Hvilken komponent håndhæver ændringen?
+- Ændrer IP-adressen sig, eller kun tilladelsen?
+
+Klienten skal kunne gennemføre nødvendig autentifikation, selvom normal dataadgang endnu er blokeret. “Blokeret adgang” betyder derfor ikke nødvendigvis, at absolut alle kontrolbeskeder er forbudt.
+
+## Prøv selv
+
+Serverloggen siger Accept, men tjenesten er stadig utilgængelig. Hvor undersøger du videre?
+
+<details>
+<summary>Se et muligt svar</summary>
+
+Kontrollér, om authenticatoren modtog og anvendte beslutningen. Undersøg derefter adgangsregler, routing, eventuel VLAN-tildeling og selve tjenesten. Test samme konkrete forbindelse før og efter. Et passwordtjek beviser ikke, at datapath fungerer.
+
+</details>
+
+## Kort fortalt
+
+Serveren vurderer autentifikationen; authenticatoren håndhæver adgangen. Hold HTTP-simulationen adskilt fra faktisk 802.1X/EAPOL.

@@ -1,0 +1,64 @@
+## Det lærer du
+
+Du lærer VM kontra container, image kontra instans, og hvordan portmapping forbinder en lokal browser med en container.
+
+## Hvorfor det betyder noget
+
+Et lab skal gøre det muligt at eksperimentere og vende tilbage til et kendt udgangspunkt. Det kræver mere end at starte Docker.
+
+## VM eller container?
+
+En virtuel maskine har eget gæsteoperativsystem og kernel. En container er en isoleret proces, der deler kernel med sin vært. Docker Desktop kører typisk Linux-containere gennem en Linux-VM.
+
+Et image er en skabelon med filsystem og startopsætning. En container er en instans oprettet fra den. Du kan starte flere containere fra samme image.
+
+Containerens skrivbare lag er ikke det samme som vedvarende lagring. Data, som skal bevares uafhængigt af containeren, kan placeres i volumes. Undersøg derfor, hvilke data en oprydning faktisk fjerner.
+
+## Portmapping forklaret
+
+Webserveren lytter på port 80 inde i containeren. Browseren er på værten:
+
+```text
+Browser → 127.0.0.1:8088 → Docker → container:80
+```
+
+Venstre port er værtens; højre er containerens. To containere kan bruge intern port 80, men kan ikke begge publicere på samme værtsadresse og port samtidigt.
+
+En localhost-binding begrænser normalt adgangen til værten. En binding til alle interfaces kan gøre tjenesten tilgængelig fra andre maskiner afhængigt af firewall og netværk.
+
+## Læs Compose-eksemplet
+
+Dette er et originalt eksempel til en ny lokal øvelsesmappe:
+
+```yaml
+services:
+  web:
+    image: nginx:stable-alpine
+    ports:
+      - "127.0.0.1:8088:80"
+```
+
+services beskriver tjenesterne. web er vores navn. image vælger udgangspunktet. ports binder localhost-port 8088 til containerens HTTP-port 80.
+
+Tagget stable-alpine kan ændre indhold over tid. Et reproducerbart driftsmiljø bør fastlåse den valgte version eller digest.
+
+## Isolation skal kontrolleres
+
+En bridged VM kan optræde direkte på det fysiske LAN. NAT er heller ikke fuld isolation; det tillader ofte udgående trafik. Sårbare labmaskiner bør placeres i et særskilt internt eller host-only netværk efter en kontrolleret plan.
+
+Privilegerede containere, værtsnetværk og montering af Docker-socket giver større adgang til værten. Det er ikke passende standardvalg til denne øvelse.
+
+## Prøv selv
+
+En anden webcontainer skal bruge værtens port 8089. Hvilken mapping vælger du?
+
+<details>
+<summary>Se forklaringen</summary>
+
+127.0.0.1:8089:80 ændrer værtens indgang, ikke webserverens interne port. Test begge URL'er, og kontrollér mappings med docker compose ps.
+
+</details>
+
+## Kort fortalt
+
+Image er skabelonen, container er instansen, og portmapping forbinder to netværksrum. Fortsæt med [Docker-øvelsen](/labs/docker-local).

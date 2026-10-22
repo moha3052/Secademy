@@ -1,0 +1,53 @@
+## Det lærer du
+
+Du lærer forskellen på en sikkerhedspolitik, en procedure og en teknisk kontrol. Målet er at gå fra et forretningsbehov til en regel, som faktisk kan testes.
+
+## Hvorfor det betyder noget
+
+Et rådgivningsfirma har kundemapper på en fælles server. Alle medarbejdere kan læse dem, fordi ingen har besluttet andet. Der behøver ikke være sket et angreb, før den opsætning er et problem.
+
+En politik gør beslutninger gentagelige. To ansatte med samme arbejdsopgave skal ikke få forskellige rettigheder, bare fordi forskellige administratorer opretter dem.
+
+## Fra hensigt til handling
+
+**Politik:** Kun medarbejdere på en kundes sag må læse sagens dokumenter.
+
+**Procedure:** Den sagsansvarlige godkender adgang. IT tilføjer medarbejderen til den relevante gruppe. Ved sagens afslutning fjernes medlemskabet.
+
+**Kontrol:** Filsystemets gruppe- eller ACL-rettigheder afviser andre brugere. En periodisk gennemgang opdager gamle medlemskaber.
+
+En regel på papir afviser ikke et filopslag. En teknisk rettighed ved heller ikke af sig selv, om medarbejderen stadig arbejder på sagen. Organisation og teknik skal hænge sammen.
+
+## Et gennemarbejdet eksempel
+
+Firmaets bærbare indeholder kundedata. Risikoen er, at en computer bliver stjålet.
+
+1. **Aktiv:** Kundernes dokumenter.
+2. **Hændelse:** En tyv får fysisk adgang til disken.
+3. **Politik:** Bærbare med kundedata skal have godkendt diskkryptering.
+4. **Procedure:** Krypteringsstatus kontrolleres ved udlevering. Gendannelsesnøgler opbevares med særskilt adgangskontrol.
+5. **Kontrol:** Krypteret disk og beskyttet nøgle.
+6. **Test:** Kontrolleret gendannelse i et testmiljø, ikke blot et flueben ved installation.
+
+Skriv også, hvem der ejer opgaven, og hvordan undtagelser udløber. Ellers kan en midlertidig adgang blive permanent.
+
+## Adgangskoder som eksempel
+
+En passwordpolitik bør beskrive unikke koder, håndtering af kompromittering, password manager, MFA og gendannelse. Specialtegn alene er ikke en strategi.
+
+Rutinemæssige tvungne skift uden tegn på kompromittering er ikke en universel forbedring. NIST anbefaler ikke periodiske skift som standard, men handling ved kompromittering. Se [NISTs autentifikationsvejledning](https://pages.nist.gov/800-63-4/sp800-63b.html).
+
+## Prøv selv
+
+En studentermedhjælper skal have adgang til supportsager i fire uger, men ikke løndata. Beskriv politik, procedure og kontrol.
+
+<details>
+<summary>Se et muligt svar</summary>
+
+Politikken giver opgavebestemt, tidsbegrænset adgang. Proceduren kræver godkendelse og slutdato. Kontrollen er medlemskab af supportgruppen med afgrænset adgang. Test både en supportsag, der skal kunne åbnes, og en lønfil, der skal afvises. Fjern medlemskabet ved periodens slutning.
+
+</details>
+
+## Kort fortalt
+
+Politikken beskriver hvad og hvorfor. Proceduren beskriver hvem og hvordan. Kontrollen håndhæver reglen. Testen undersøger, om den virker.

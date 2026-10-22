@@ -1,0 +1,55 @@
+## Det lærer du
+
+Du lærer at skelne mellem angrebsflade, angrebsvej og sårbarhed, og at bruge et angrebsforløb til at vælge forsvar.
+
+## Hvorfor det betyder noget
+
+En firewallregel giver mere mening, når du kan forklare, hvilket trin den begrænser. Vi analyserer et tænkt forløb; der udføres ingen angreb.
+
+## Tre forskellige spørgsmål
+
+**Angrebsfladen** er steder, hvor en angriber kan møde systemet: login, filserver, integrationer eller indbakker.
+
+**Angrebsvejen** er fremgangsmåden: phishing, kontomisbrug eller udnyttelse af en tjeneste.
+
+**Sårbarheden** er svagheden: en softwarefejl, manglende adgangskontrol eller usikker konfiguration. Ikke alle sårbarheder har et CVE-nummer. CWE beskriver typer af svagheder; CVE identificerer konkrete offentliggjorte sårbarheder.
+
+## Følg et tænkt angreb
+
+Et firma har en ældre filserver. En angriber overtager en almindelig medarbejderkonto.
+
+1. Kontoen giver et udgangspunkt i miljøet.
+2. Angriberen finder en tilgængelig filservice.
+3. En relevant, upatchet fejl giver mulighed for kodekørsel.
+4. Koden får de rettigheder, som tjenesten og fejlen giver adgang til.
+5. Konto- eller opstartsændringer kan give vedvarende adgang.
+6. Data kan læses, ændres eller gøres utilgængelige.
+
+En kodekørselsfejl giver ikke automatisk root i alle produkter. En gammel fejl kan stadig være alvorlig, hvis målversionen er sårbar. Omvendt kan leverandører have tilbageført rettelser uden at ændre hovedversionen; et versionsnummer er ikke altid nok som bevis.
+
+## Knyt forsvar til trinene
+
+MFA begrænser visse former for kontomisbrug. Segmentering begrænser, hvilke tjenester kontoen kan nå. Opdateringer lukker kendte fejl. Mindst mulige rettigheder begrænser konsekvenserne. Overvågning kan opdage nye privilegerede konti.
+
+Backup hjælper med gendannelse, men forhindrer ikke nødvendigvis, at data først bliver læst. Hver kontrol har en konkret opgave og en begrænsning.
+
+## Modeller er hjælp, ikke naturlove
+
+Cyber Kill Chain beskriver et overordnet angrebsforløb. MITRE ATT&CK organiserer observeret adfærd i taktikker og teknikker. Virkelige angreb kan gentage trin og springe andre over.
+
+STRIDE stiller et andet spørgsmål: Hvad kan gå galt i designet? Brug derfor ikke modellerne som synonymer. Se [MITRE ATT&CK](https://attack.mitre.org/).
+
+## Prøv selv
+
+En filserver er upatchet og tilgængelig fra gæstenettet. Forklar, hvorfor både adgangsbegrænsning og patching er relevante.
+
+<details>
+<summary>Se et muligt svar</summary>
+
+Adgangsbegrænsning reducerer eksponeringen, men fjerner ikke fejlen. En testet opdatering retter fejlen, men gør ikke unødvendig adgang hensigtsmæssig. Undersøg også, om kompromittering allerede er sket; en patch fjerner ikke nødvendigvis tidligere etableret adgang.
+
+</details>
+
+## Kort fortalt
+
+Ved hver kontrol: Hvilket angrebstrin begrænser den, og hvad løser den ikke?

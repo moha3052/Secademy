@@ -1,0 +1,61 @@
+## Det lærer du
+
+Du lærer forskellen på hashkontrol, ægthed og kryptering. Du kan forklare, hvorfor en korrekt SHA-256-værdi ikke alene beviser, at software er sikker.
+
+## Hvorfor det betyder noget
+
+Før installation vil du vide, om din Linux-ISO er ændret eller beskadiget. Efter installationen vil du beskytte data, hvis nogen stjæler disken. Det er to forskellige problemer.
+
+## Hash er et fingeraftryk
+
+SHA-256 beregner et 256-bit fingeraftryk af filens bytes, normalt vist som 64 hexadecimale tegn. Samme input giver samme hash. En lille ændring giver normalt et helt andet resultat.
+
+Et hash er ikke en krypteret fil, som kan dekrypteres tilbage. Forskellige filer kan matematisk have samme hash, men for en sikker hashfunktion skal det være praktisk urealistisk at finde nyttige kollisioner.
+
+Prøv i en ny lokal øvelsesmappe:
+
+```bash
+printf 'version 1\n' > eksempel.txt
+sha256sum eksempel.txt
+printf 'version 2\n' > eksempel.txt
+sha256sum eksempel.txt
+```
+
+Du forventer forskellige hashværdier. Kommandoerne overskriver kun øvelsesfilen eksempel.txt. På Windows kan du læse hashværdien af en eksisterende fil med:
+
+```powershell
+Get-FileHash -Algorithm SHA256 .\eksempel.txt
+```
+
+## Hvem stoler du på?
+
+Hvis en angriber ændrer både ISO og referencehash på downloadsiden, kan sammenligningen stadig passe.
+
+- **Integritet:** Matcher filen den forventede hash?
+- **Ægthed:** Kommer referenceværdien eller signaturen fra den rigtige udgiver?
+- **Sikkerhed:** Er selve softwaren fri for relevante fejl og uønsket funktionalitet?
+
+En signeret checksumfil styrker ægtheden, hvis signeringsnøglen er verificeret. Den beviser ikke, at den signerede software er fejlfri.
+
+## Kryptering løser et andet problem
+
+Filrettigheder håndhæves af operativsystemet. En tyv, som læser en ukrypteret disk fra et andet system, er ikke bundet af den oprindelige brugers login.
+
+Diskkryptering, eksempelvis LUKS, beskytter indhold med en nøgle. Når disken er låst op, kan processer med tilstrækkelig adgang stadig læse data. Kryptering beskytter derfor ikke automatisk mod malware i en aktiv session.
+
+> En mistet gendannelsesnøgle kan betyde mistede data. Planlæg sikker nøgleopbevaring og afprøvet gendannelse. Backup og kryptering erstatter ikke hinanden.
+
+## Prøv selv
+
+“Hashen matcher, så programmet kan ikke være ondsindet.” Hvad er forkert i konklusionen?
+
+<details>
+<summary>Se forklaringen</summary>
+
+Match viser overensstemmelse med en reference under hashfunktionens sikkerhedsantagelser. Hvis kilden er kompromitteret, eller udgiverens program selv er ondsindet, kan hashen stadig matche. Verificér ophavet, og vurder softwaren særskilt.
+
+</details>
+
+## Kort fortalt
+
+Hash opdager ændringer. Signaturer kan underbygge ophavet. Kryptering beskytter indhold med en nøgle.

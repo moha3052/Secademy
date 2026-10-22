@@ -1,0 +1,60 @@
+## Det lærer du
+
+Du lærer, hvordan en switch lærer MAC-adresser, og hvordan ARP finder næste hops MAC-adresse for IPv4.
+
+## Hvorfor det betyder noget
+
+En IP-adresse er ikke nok til at sende en Ethernet-frame. Afsenderen skal også kende næste hops linkadresse. Forkerte mappings kan omdirigere eller afbryde trafik.
+
+## To tabeller, to opgaver
+
+**Switchens MAC-tabel:** Hvilken port fører til en MAC-adresse i et VLAN?
+
+**Værtens neighbor-/ARP-tabel:** Hvilken MAC-adresse hører til en lokal IPv4-nabo?
+
+Switchen lærer fra source MAC og træffer forwardingbeslutningen ud fra destination MAC. Kendt unicast sendes mod den kendte port. Ukendt unicast kan floodes inden for VLAN'et bortset fra indgangsporten. Det betyder ikke, at alle frames altid sendes til alle.
+
+## Følg en forespørgsel
+
+A har 192.0.2.10/24 og vil sende til B på 192.0.2.20/24:
+
+1. Routingtabellen viser, at B er lokal.
+2. A undersøger sin neighbor-tabel.
+3. Mangler mappingen, sender A en ARP-forespørgsel som Ethernet-broadcast.
+4. B svarer normalt direkte med sin MAC.
+5. A kan sende IP-pakken i en Ethernet-frame til B.
+
+Ved en fjern destination ville A normalt spørge efter gatewayens MAC, ikke serverens fjerne MAC.
+
+## Probe, announcement og cache
+
+En ARP probe kan undersøge, om en adresse allerede bruges, før værten tager den. Afsender-IP kan derfor være 0.0.0.0. En announcement oplyser eller opfrisker en mapping uden en forudgående forespørgsel.
+
+Læs Linux-tabellen:
+
+```bash
+ip neigh
+```
+
+STALE betyder normalt, at mappingen ikke er bekræftet for nylig; det er ikke i sig selv et angreb. FAILED betyder, at opslag eller validering mislykkedes.
+
+## Hvor er risikoen?
+
+ARP har ikke indbygget kryptografisk autentifikation af IP/MAC-påstanden. Under bestemte forhold kan falske mappings påvirke trafikken. En ændret gateway-MAC er et spor, men kan også skyldes legitim failover.
+
+Dynamic ARP Inspection kan kontrollere ARP mod tilladte bindings, ofte fra DHCP snooping. Statiske adresser kræver også passende kontrolkonfiguration. VLAN begrænser broadcastområdet, men forhindrer ikke automatisk misbrug inden for VLAN'et. TLS beskytter indhold på en anden måde.
+
+## Prøv selv
+
+Du ser gentagne uopfordrede ARP-svar for gatewayadressen. Angiv en hypotese, en alternativ forklaring og næste undersøgelse.
+
+<details>
+<summary>Se et muligt svar</summary>
+
+Hypotese: En vært prøver at ændre andres ARP-cache. Alternativ: Gateway-failover. Undersøg godkendt konfiguration, switchlogs og tidsforløbet ved flere målepunkter. En høj pakkerate alene identificerer ikke sikkert en angriber.
+
+</details>
+
+## Kort fortalt
+
+Switchtabellen forbinder MAC med port. ARP forbinder lokal IPv4 med MAC. Hold de to beslutninger adskilt.

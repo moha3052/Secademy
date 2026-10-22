@@ -1,0 +1,48 @@
+## Det lærer du
+
+Du lærer, hvorfor redundante Layer 2-forbindelser kan skabe loops, og hvordan STP, BPDU Guard og Root Guard løser forskellige problemer.
+
+## Hvorfor det betyder noget
+
+Ekstra kabler giver reserveveje, men broadcasts kan cirkulere og blive kopieret, hvis der er et aktivt loop. Ethernet har ikke et IP-lignende TTL-felt, som automatisk stopper det.
+
+## En loopfri aktiv topologi
+
+STP udveksler BPDUs og vælger, hvilke forbindelser der videresender almindelig datatrafik. Fysisk tilstedeværelse er ikke det samme som aktiv forwarding.
+
+Root bridge vælges ud fra laveste Bridge ID. Det omfatter prioritet og MAC-baseret identifikation samt VLAN-relaterede detaljer i relevante varianter. Lavere vinder; hurtigste switch bliver ikke automatisk root.
+
+Hver ikke-root-switch vælger sin bedste vej mod root og den tilhørende root port. På hvert segment vælges en designated port. Redundante veje holdes fra forwarding efter reglerne i den anvendte variant.
+
+## Regn et eksempel
+
+A, B og C danner en trekant. A er root. Antag, at hvert link har cost 10.
+
+B → A koster 10. B → C → A koster 20. B vælger derfor den direkte port mod A som root port. C gør tilsvarende.
+
+På B–C-linket har begge samme cost til root. En næste tie-breaker, blandt andet Bridge ID, afgør den foretrukne side. Antag lavere Bridge ID hos B: B's port er designated, mens C's redundante vej ikke videresender almindelig data.
+
+Den blokerede vej er her en del af løsningen, ikke en defekt. Ved fejl kan topologien ændres.
+
+## To guards
+
+**BPDU Guard:** På rigtige edge-porte, hvor ingen switch forventes. En modtaget BPDU kan sætte porten i fejldeaktiveret tilstand afhængigt af platformen.
+
+**Root Guard:** Mod en downstream-switch, som gerne må deltage, men ikke må overtage root-rollen med overlegne BPDUs.
+
+PortFast/edge lader passende slutbrugerporte gå hurtigt i forwarding. Det autentificerer ikke enheden og bør ikke ukritisk anvendes på switchforbindelser.
+
+## Prøv selv
+
+Port 1 har en PC. Port 2 har en underordnet switch, som ikke må blive root. Hvilke guards passer?
+
+<details>
+<summary>Se forklaringen</summary>
+
+BPDU Guard passer til PC-portens forventning om ingen switch. Root Guard kan passe mod downstream-switchen, hvor BPDUs er forventede, men root-rollen ikke må flyttes den vej. Kontrollér altid topologidesign og leverandørens konkrete adfærd.
+
+</details>
+
+## Kort fortalt
+
+Design den ønskede root bevidst. Brug den guard, der passer til portens rolle, og skeln mellem fysisk redundans og aktive forwardingveje.

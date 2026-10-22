@@ -1,0 +1,39 @@
+## Det lærer du
+
+- At skelne mellem fortrolighed, integritet og tilgængelighed.
+- At genkende, at én hændelse kan påvirke flere sikkerhedsmål.
+- At vælge en beskyttelse ud fra det, du faktisk vil beskytte.
+
+## Hvorfor det betyder noget
+
+Forestil dig en studieportal. Karaktererne skal være private, de skal være korrekte, og du skal kunne hente dem, når du har brug for dem. En løsning er ikke sikker alene, fordi den har en stærk adgangskode. Den skal understøtte alle tre behov.
+
+## Forstå begrebet
+
+**Fortrolighed** betyder, at oplysninger kun er tilgængelige for dem, der har lov til at se dem. Når en medstuderende kan åbne dine private karakterer, er fortroligheden brudt. Adgangskontrol og kryptering kan beskytte den.
+
+**Integritet** handler om, at data er korrekte og ikke ændres uden tilladelse. Hvis en angriber ændrer en karakter, er integriteten brudt, selv hvis ingen andre kan læse karakteren. Rettigheder, signaturer og logning kan hjælpe med at forebygge eller opdage uønskede ændringer.
+
+**Tilgængelighed** betyder, at systemet og data kan bruges, når autoriserede brugere har behov for det. En nedbrudt server kan bryde tilgængeligheden uden at lække eller ændre data. Backups, kapacitetsplanlægning og afprøvet gendannelse er relevante kontroller.
+
+> De tre mål kaldes ofte CIA: Confidentiality, Integrity og Availability. Det er en måde at stille bedre spørgsmål på, ikke en tjekliste, der automatisk gør et system sikkert.
+
+## Et eksempel fra virkeligheden
+
+En bærbar med en ukrypteret kopi af en klasseliste bliver stjålet. Uvedkommende kan måske læse listen: en risiko for fortroligheden. Hvis det var den eneste kopi, mister skolen også tilgængeligheden. Kryptering hjælper mod læsning, mens en separat backup hjælper med at få data tilbage. Ingen af de to kontroller løser begge problemer alene.
+
+Risiko afhænger både af sandsynligheden for en hændelse og dens konsekvens. En offentlig kursusbeskrivelse og en privat karakterliste har derfor ikke nødvendigvis brug for samme beskyttelse.
+
+## Prøv selv
+
+Tegn tre kolonner med de tre sikkerhedsmål. Placér disse hændelser i én eller flere kolonner:
+
+1. Et dokument deles ved en fejl med hele klassen.
+2. En disk går i stykker, og den eneste kopi forsvinder.
+3. Et kontonummer på en faktura bliver ændret.
+
+Skriv derefter én kontrol til hver hændelse, og forklar hvorfor den hjælper. Mulige svar er adgangsbegrænsning, en afprøvet backup og godkendelse af ændringer. Der kan være flere rigtige løsninger.
+
+## Kort fortalt
+
+Spørg altid: Hvem må læse? Hvem må ændre? Hvornår skal det virke? Sikkerhed bliver mere konkret, når du ved, hvilket mål en kontrol skal beskytte.

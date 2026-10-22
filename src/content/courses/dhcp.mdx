@@ -1,0 +1,54 @@
+## Det lærer du
+
+Du lærer DORA, hvorfor DHCP påvirker mere end IP-adressen, og hvordan snooping begrænser uautoriserede serversvar.
+
+## Hvorfor det betyder noget
+
+En ny computer kender måske hverken egen IP, gateway eller DNS-server. DHCP gør opstart nem, men leverer samtidig konfiguration, klienten stoler på.
+
+## Fire trin
+
+**Discover:** Klienten leder efter en server, ofte fra 0.0.0.0 til broadcast.
+
+**Offer:** En server tilbyder adresse og indstillinger.
+
+**Request:** Klienten anmoder om et valgt tilbud.
+
+**Acknowledgment:** Serveren bekræfter leasen. Klienten håndterer eventuelle adressekonflikter, før adressen anvendes.
+
+DORA beskriver et almindeligt indledende forløb. Fornyelser kan se anderledes ud; kræv ikke fire pakker i enhver session.
+
+> DHCPv4 bruger UDP 67 på serveren og 68 på klienten. Port 53 er normalt DNS. DHCP er en applikationsprotokol oven på UDP/IP, også når starten bruger broadcast.
+
+## Hvad følger med?
+
+Subnetmaske, gateway, DNS-server og leasetid kan følge med adressen. En plausibel IP er derfor ikke bevis for korrekt konfiguration.
+
+Eksempel: Klienten får 192.0.2.40/24, men DNS peger på en uautoriseret server. Navneopslag kan blive påvirket, selvom ping til en kendt IP virker.
+
+Routere videresender ikke almindelige lokale broadcasts mellem netværk. En DHCP relay kan formidle mellem klientnet og server. Serveren behøver derfor ikke være direkte i klientens VLAN.
+
+## To forskellige problemer
+
+En rogue DHCP-server giver uautoriserede svar. DHCP starvation forsøger at opbruge adressepuljen. Symptomerne og relevante kontroller er ikke ens.
+
+DHCP snooping markerer porte som trusted eller untrusted for serversvar og opbygger bindings. Kun relevante indgangsporte for legitime serversvar bør være trusted. Forkerte indstillinger kan blokere den rigtige server.
+
+Rate limiting, passende portbegrænsninger og overvågning hjælper mod misbrug. Flere Offers er dog ikke automatisk et angreb; flere legitime servere kan eksistere.
+
+## Prøv selv
+
+En klient får en 169.254-adresse og kan ikke nå internettet. Er det bevis for et angreb?
+
+<details>
+<summary>Se forklaringen</summary>
+
+Nej. Det kan være link-local-konfiguration efter manglende DHCP-svar. Undersøg link, VLAN, server, relay og eventuelle snooping-drops. Kig efter Discover og svar ved relevante målepunkter. Symptomet starter undersøgelsen; det afslutter den ikke.
+
+</details>
+
+## Kort fortalt
+
+Undersøg hele tilbuddet. Skeln mellem manglende svar, uautoriserede svar og en udtømt pulje.
+
+Primær reference: [RFC 2131](https://www.rfc-editor.org/info/rfc2131/).

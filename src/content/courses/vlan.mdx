@@ -1,0 +1,54 @@
+## Det lærer du
+
+Du lærer at holde VLAN-medlemskab, PVID og tagging adskilt og følge en frame gennem to switches.
+
+## Hvorfor det betyder noget
+
+Samme fysiske switch betyder ikke samme Layer 2-netværk. Omvendt kan computere i forskellige switches tilhøre samme VLAN. Kablerne fortæller ikke hele historien.
+
+## Tre spørgsmål pr. port
+
+1. Hvilke VLAN er porten medlem af?
+2. Hvilket VLAN tildeles en indkommende untagged frame? Her er PVID relevant.
+3. Skal en frame forlade porten med eller uden tag?
+
+Et VLAN er et logisk broadcastdomæne. En almindelig access-port forbinder en slutbruger til ét data-VLAN med untagged trafik. En trunk kan bære flere VLAN, normalt adskilt med 802.1Q-tags. Voice VLAN og andre specialopsætninger kræver ekstra nuancer.
+
+## Følg en frame
+
+Klienten sidder på A's access-port i VLAN 20. Serveren sidder på B's access-port i VLAN 20. Trunken tillader VLAN 20:
+
+```text
+Klient -- untagged -- A -- tag:20 -- B -- untagged -- Server
+```
+
+A klassificerer klientens frame som VLAN 20. Tagget på trunken fortæller B, hvilket VLAN den tilhører. Mod serveren forlader den switchen uden tag. Switchen kan bevare VLAN-information internt uden et tag på access-linket.
+
+## Native VLAN og en konkret fejl
+
+Hvis A sender VLAN 20 untagged på trunken, men B klassificerer untagged trafik som VLAN 30, havner trafikken forkert.
+
+B kan ikke læse et fjernet tag. Den bruger sin egen indgangskonfiguration. Problemet er derfor ikke nødvendigvis IP-adressen.
+
+802.1Q-tagget fylder fire bytes. VLAN-ID-feltet er 12 bit; almindelige VLAN-ID'er er 1–4094. VLAN 0 bruges til priority tagging og er ikke et almindeligt medlems-VLAN; 4095 er reserveret.
+
+## VLAN er ikke en komplet firewall
+
+Kommunikation mellem VLAN kræver normalt Layer 3-routing. Hvis routeren tillader alt, er den ønskede adgangsbegrænsning måske ikke opnået. Definér også regler for forbindelser på Layer 3.
+
+Switch spoofing kan misbruge tilladt dynamisk trunkforhandling. Double tagging afhænger af bestemte native-VLAN-, topologi- og framebehandlingsforhold. Det er ikke en universel genvej mellem alle VLAN. En manglende ping-reply beviser heller ikke, at ingen frame krydsede grænsen.
+
+## Prøv selv
+
+A sender VLAN 20 untagged. B har PVID 30 på indgangsporten. Hvad sker der?
+
+<details>
+<summary>Se forklaringen</summary>
+
+B klassificerer normalt den accepterede untagged frame som VLAN 30. Gør indgangs- og udgangsregler konsistente i begge ender, og tillad kun nødvendige VLAN. Captures på begge sider kan vise, hvor tagget ændres.
+
+</details>
+
+## Kort fortalt
+
+Dokumentér medlemskab, indgangsklassifikation og udgangstagging separat. Prøv [VLAN-observationsøvelsen](/labs/vlan-observation).

@@ -1,0 +1,42 @@
+## Det lærer du
+
+- At forklare princippet om mindst mulige rettigheder.
+- At skelne mellem en almindelig bruger, root og sudo.
+- At begrænse konsekvensen af en fejl eller kompromitteret konto.
+
+## Hvorfor det betyder noget
+
+Du skal rette en tekstfil, men din editor kører som administrator. En fejl i programmet kan nu påvirke langt mere end teksten. Det samme gælder et ondsindet program: det arver typisk rettighederne fra den bruger, der starter det.
+
+## Forstå begrebet
+
+**Mindst mulige rettigheder** betyder, at en bruger eller proces kun får den adgang, som opgaven kræver, i den tid den er nødvendig. En webserver behøver normalt at læse sine offentlige filer. Den behøver ikke at kunne ændre alle brugeres hjemmemapper.
+
+På Linux har en almindelig bruger sit eget bruger-id og medlemskab af grupper. Filer har en ejer og en gruppe, og systemet bruger rettighederne til at afgøre, om brugeren må læse, skrive eller udføre dem.
+
+**Root** er den traditionelle superbruger med bruger-id 0. Root kan omgå mange almindelige rettighedskontroller. Derfor kan en forkert kommando som root have vidtrækkende konsekvenser. Yderligere kontroller som containere og sikkerhedsmoduler kan stadig sætte grænser.
+
+**sudo** lader en godkendt bruger køre en bestemt kommando som en anden bruger, typisk root. Det er en kontrolleret overgang til flere rettigheder. Det er ikke en trylleformular, man skal sætte foran enhver kommando, der fejler.
+
+> En adgangskode beviser ikke, at en handling er nødvendig. Autentifikation handler om, hvem du er. Autorisation handler om, hvad du må.
+
+## Et eksempel fra virkeligheden
+
+En udvikler skal læse en applikations logfiler. Den hurtige løsning er fuld administratoradgang. Den mere præcise løsning er læseadgang til de relevante logs, eventuelt gennem en gruppe. Hvis kontoen bliver kompromitteret, har angriberen dermed færre muligheder. Logfiler kan selv indeholde følsomme data, så adgang skal stadig begrundes.
+
+## Prøv selv
+
+Kør følgende i dit eget Linux-miljø. Kommandoerne viser oplysninger og ændrer ikke systemet:
+
+```bash
+whoami
+id
+```
+
+`whoami` viser dit effektive brugernavn. `id` viser bruger-id, primær gruppe og øvrige grupper. Notér dit bruger-id og gruppenavne. Hvis bruger-id er 0, bruger du root: opret eller vælg en almindelig konto til dagligt arbejde efter vejledningen til din distribution.
+
+Lav derefter en adgangsplan for en tænkt hjemmeside: Hvem skal kunne læse indhold? Hvem skal kunne redigere? Hvem skal kunne installere opdateringer? Begrund, hvorfor de tre roller ikke automatisk skal have samme rettigheder.
+
+## Kort fortalt
+
+Start med almindelige rettigheder. Hæv dem kun, når opgaven kræver det. Sudo skal være et bevidst valg, og adgang skal følge opgaven frem for bekvemmeligheden.

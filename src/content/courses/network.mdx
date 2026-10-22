@@ -1,0 +1,47 @@
+## Det lærer du
+
+- At forklare rollerne for DNS, IP-adresser, porte og TCP.
+- At skelne mellem routing og navneopslag.
+- At forstå, hvorfor HTTPS stadig er nødvendig.
+
+## Hvorfor det betyder noget
+
+Når en hjemmeside ikke virker, kan fejlen ligge mange steder. Ved at følge dataenes vej kan du stille mere præcise spørgsmål end bare: Er internettet nede?
+
+## Forstå begrebet
+
+**DNS** oversætter et navn som `example.com` til oplysninger, blandt andet IP-adresser. DNS er et opslagssystem, ikke den mekanisme, der sender dine webdata til serveren.
+
+**IP** bruges til adressering og videresendelse af pakker mellem netværk. Routere vælger næste hop ud fra deres routingtabeller. IP alene garanterer ikke levering, rækkefølge eller fortrolighed.
+
+**Porte** hjælper transportlaget med at skelne mellem tjenester og forbindelser på en maskine. En HTTPS-tjeneste bruger ofte port 443, men et portnummer beviser ikke, at trafikken er sikker.
+
+**TCP** giver en ordnet bytestrøm med håndtering af blandt andet tab og retransmission. **TLS** tilføjer kryptering og autentifikation af forbindelsen. HTTPS er HTTP beskyttet med TLS. HTTP/3 bruger QUIC over UDP i stedet for TCP, så ikke alle moderne webforbindelser følger TCP-forløbet.
+
+## Et eksempel fra virkeligheden
+
+Et almindeligt forløb for en HTTPS-forbindelse med TCP:
+
+1. Browseren finder en IP-adresse gennem DNS eller en cache.
+2. Computeren sender trafik mod serveren via det lokale netværk og eventuelle routere.
+3. Der etableres en TCP-forbindelse til serverens port.
+4. TLS-forhandlingen kontrollerer blandt andet serverens certifikat.
+5. Browseren sender HTTP-data gennem den krypterede forbindelse.
+
+Hvis DNS virker, men forbindelsen afvises, kan tjenesten være stoppet eller en firewall blokere den. Hvis certifikatet er ugyldigt, skal advarslen undersøges frem for bare at blive klikket væk.
+
+## IP og MAC: to forskellige modtagere
+
+Din computer har IP `192.168.10.25/24` og vil sende til `203.0.113.10`. Routingtabellen vælger gatewayen `192.168.10.1`. Computeren finder gatewayens MAC-adresse via ARP og sender Ethernet-rammen til **gatewayens MAC**, mens IP-pakkens destination stadig er **203.0.113.10**.
+
+Ved næste routede link oprettes en ny linklagsramme med næste hops adresser. MAC-adresser er altså relevante på det lokale link; de følger ikke normalt pakken uændret gennem internettet. NAT kan også omskrive IP-adresser, men det er en særskilt funktion.
+
+## Prøv selv
+
+Åbn udviklerværktøjerne i din browser på en offentlig side, du normalt besøger. Vælg fanen Netværk, genindlæs siden, og undersøg én forespørgsel. Find navn, metode og statuskode. Del ikke et eksport af trafikken: det kan indeholde cookies og andre private oplysninger.
+
+Tegn derefter rejsen fra browser til server. Placér DNS, IP, TCP og TLS på tegningen og forklar deres forskellige roller. Wireshark kan senere bruges til at observere pakker i dit eget autoriserede lab. Krypteret indhold bliver ikke automatisk læsbart, bare fordi du optager pakkerne.
+
+## Kort fortalt
+
+DNS finder oplysninger om navne. IP får pakker mellem netværk. Porte identificerer transportendepunkter. TCP håndterer en pålidelig bytestrøm, og TLS beskytter forbindelsen. Hver del løser sit eget problem.
