@@ -30,12 +30,12 @@ for (const course of courses) {
           () => document.documentElement.scrollWidth <= innerWidth,
         ),
       ).toBe(true);
-      if (!isMobile)
-        expect(
-          await page.evaluate(
-            () => document.documentElement.scrollHeight <= innerHeight,
-          ),
-        ).toBe(true);
+      expect(
+        await page
+          .locator(".chapter-lesson strong")
+          .first()
+          .evaluate((el) => parseFloat(getComputedStyle(el).fontSize)),
+      ).toBeGreaterThanOrEqual(16);
     }
     await expect(
       page.getByRole("button", { name: "Næste kapitel", exact: true }),
@@ -44,6 +44,8 @@ for (const course of courses) {
     await expect(page.locator("#chapter-title")).toHaveText(
       course.modules.at(-2)!.title,
     );
+    await page.locator(".chapter-glossary summary").click();
+    await expect(page.locator(".chapter-glossary dd").first()).toBeVisible();
     await page.locator(".chapter-lesson").first().click();
     await expect(page).toHaveURL(/\/lektioner\//);
   });

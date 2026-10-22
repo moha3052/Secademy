@@ -2979,3 +2979,260 @@ h2 {
     font-size: 20px;
   }
 }
+
+/* Readability comes before fitting every screen height. */
+.beginner-guidance {
+  font-size: 15px;
+  line-height: 1.7;
+  max-width: 780px;
+  margin: 20px 0 0;
+  color: var(--text);
+}
+.explorer-breadcrumb,
+.explorer-title .eyebrow,
+.explorer-local {
+  font-size: 12px;
+}
+.explorer-title p,
+.explorer-progress {
+  font-size: 14px;
+}
+.explorer-resume {
+  font-size: 14px;
+  min-height: 46px;
+  white-space: normal;
+}
+.explorer-title h1 {
+  font-size: clamp(26px, 2.4vw, 36px);
+}
+.explorer-progress {
+  padding: 18px 0 22px;
+}
+.course-explorer {
+  grid-template-columns: 290px minmax(0, 1fr);
+}
+.chapter-navigation button {
+  padding: 13px 10px;
+  min-height: 64px;
+}
+.chapter-navigation button small,
+.chapter-nav-label {
+  font-size: 11px;
+}
+.chapter-navigation button strong {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.chapter-panel-top .eyebrow,
+.chapter-panel-top > span:last-child {
+  font-size: 12px;
+}
+.chapter-content {
+  padding: 25px 26px 0;
+  min-height: 0;
+}
+.chapter-panel-title {
+  align-items: flex-start;
+  margin-bottom: 22px;
+}
+.chapter-panel-title h2 {
+  font-size: 25px;
+  line-height: 1.3;
+}
+.chapter-panel-title p {
+  font-size: 16px;
+  line-height: 1.7;
+  margin-top: 10px;
+}
+.chapter-panel-icon {
+  margin-top: 3px;
+}
+.chapter-lesson {
+  padding: 16px 14px;
+  gap: 13px;
+  min-height: 80px;
+}
+.chapter-lesson strong {
+  font-size: 16px;
+  line-height: 1.5;
+}
+.chapter-lesson small {
+  font-size: 13px;
+  line-height: 1.5;
+  margin-top: 5px;
+}
+.lesson-index {
+  font-size: 13px;
+  width: 32px;
+  height: 32px;
+}
+.lesson-open {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.chapter-glossary {
+  padding: 15px 18px;
+  margin: 22px 0;
+  border-radius: 7px;
+  background: var(--surface);
+}
+.chapter-glossary summary {
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 30px;
+  padding: 3px 0;
+}
+.chapter-glossary summary span {
+  font-size: 12px;
+  color: var(--muted);
+  float: none;
+  display: block;
+  margin-left: 17px;
+}
+.chapter-glossary dl {
+  margin: 16px 0 0;
+}
+.chapter-glossary dl > div + div {
+  margin-top: 16px;
+}
+.chapter-glossary dt {
+  font-size: 15px;
+  font-weight: 650;
+}
+.chapter-glossary dd {
+  font-size: 15px;
+  line-height: 1.8;
+  margin: 4px 0 0;
+  color: var(--text);
+}
+.chapter-switcher {
+  padding: 12px 0;
+  flex-wrap: wrap;
+}
+.chapter-switcher button {
+  font-size: 14px;
+  min-height: 44px;
+}
+.chapter-switcher > span {
+  font-size: 12px;
+}
+.chapter-select {
+  font-size: 14px;
+}
+.chapter-select select {
+  font-size: 16px;
+  min-height: 46px;
+}
+.prose p,
+.prose li {
+  font-size: 17px;
+  line-height: 1.9;
+}
+.quiz > p,
+.quiz legend,
+.quiz label,
+.feedback {
+  font-size: 15px;
+  line-height: 1.8;
+}
+.quiz label {
+  min-height: 48px;
+}
+.quiz .btn {
+  font-size: 14px;
+  min-height: 46px;
+}
+.lesson-status {
+  font-size: 13px;
+}
+.lesson-outline strong {
+  font-size: 12px;
+}
+.lesson-outline a:not(.text-link),
+.mobile-outline a {
+  font-size: 13px;
+  line-height: 1.6;
+}
+.app-sidebar nav a {
+  font-size: 14px;
+  min-height: 44px;
+}
+@media (max-width: 1150px) {
+  .course-explorer {
+    grid-template-columns: 250px minmax(0, 1fr);
+  }
+  .lesson-open {
+    font-size: 12px;
+  }
+  .chapter-lesson {
+    flex-wrap: wrap;
+  }
+  .lesson-open {
+    margin-left: 45px;
+  }
+  .chapter-lesson > span:nth-child(2) {
+    flex-basis: calc(100% - 50px);
+  }
+}
+@media (max-width: 800px) {
+  .course-explorer {
+    display: block;
+  }
+  .explorer-title h1 {
+    font-size: 27px;
+  }
+  .explorer-title p {
+    font-size: 13px;
+  }
+  .explorer-resume {
+    font-size: 14px;
+    min-height: 44px;
+  }
+  .explorer-progress {
+    font-size: 13px;
+  }
+  .explorer-title .eyebrow {
+    font-size: 11px;
+  }
+  .beginner-guidance {
+    font-size: 15px;
+    margin-top: 16px;
+  }
+  .chapter-content {
+    padding: 20px 16px 0;
+  }
+  .chapter-panel-title h2 {
+    font-size: 24px;
+  }
+  .chapter-panel-title p {
+    font-size: 16px;
+  }
+  .chapter-lesson strong {
+    font-size: 16px;
+  }
+  .chapter-lesson small {
+    font-size: 13px;
+  }
+  .lesson-open {
+    font-size: 13px;
+  }
+  .chapter-glossary {
+    padding: 14px;
+  }
+  .chapter-switcher {
+    gap: 8px;
+  }
+  .chapter-switcher button {
+    font-size: 13px;
+  }
+  .chapter-switcher > span {
+    font-size: 12px;
+  }
+  .prose p,
+  .prose li {
+    font-size: 17px;
+  }
+}

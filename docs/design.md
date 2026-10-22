@@ -21,6 +21,8 @@ Farvetokens og layouts ligger i `src/app/globals.css`. Skærmbilleder i `docs/sc
 
 ## Kompakt kursusoversigt
 
-Begge fag bruger nu en kapitelvælger med fag- og kapitelikoner. Kun det valgte kapitels lektioner vises, og navigationen skifter indhold uden at hoppe ned ad siden. Desktopvisningen er kontrolleret ved 1366 × 768 uden lodret scrolling for samtlige kapitler. Mobil bruger en kompakt kapitelmenu og tillader naturlig scrolling på små skærme og ved tekstforstørrelse.
+Begge fag bruger nu en kapitelvælger med fag- og kapitelikoner. Kun det valgte kapitels lektioner vises, og navigationen skifter indhold uden at hoppe ned ad siden. Læsbarheden prioriteres frem for en fast skærmhøjde: lektionsnavne vises med mindst 16 px, introduktioner med 16 px og læsetekst med 17 px. Der må scrolles naturligt, når skærmen eller tekststørrelsen kræver det. Mobil bruger en kompakt kapitelmenu og tillader naturlig scrolling på små skærme og ved tekstforstørrelse.
 
 [Systemsikkerhed](screenshots/system-security-overview.png) · [Netværkssikkerhed](screenshots/network-security-overview.png)
+
+Hvert kapitel har en kort introduktion i begyndersprog og en udfoldelig ordliste. Lektionslinks har en synlig handlingsetiket, og quizzer kan prøves flere gange. En vejledning viser nye brugere, hvor de kan starte.

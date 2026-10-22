@@ -20,6 +20,7 @@ import {
   Check,
   Clock3,
 } from "lucide-react";
+import { chapterGuides } from "@/content/chapter-guides";
 import type { Course } from "@/content/courses";
 import { useProgress } from "@/lib/local-progress";
 const systemIcons = [
@@ -39,6 +40,7 @@ export function CourseExplorer({ course }: { course: Course }) {
     progress.completed.includes(l.id),
   ).length;
   const chapter = course.modules[selected];
+  const guide = chapterGuides[course.id]?.[selected];
   const icons = course.icon === "shield" ? systemIcons : networkIcons;
   const SubjectIcon = course.icon === "shield" ? ShieldCheck : Network;
   const ChapterIcon = icons[selected] || BookOpen;
@@ -60,7 +62,7 @@ export function CourseExplorer({ course }: { course: Course }) {
           <SubjectIcon size={32} strokeWidth={1.6} aria-hidden="true" />
         </div>
         <div className="explorer-title">
-          <span className="eyebrow">DIT PENSUM · PÅ DANSK</span>
+          <span className="eyebrow">FOR BEGYNDERE · PÅ DANSK</span>
           <h1>{course.title}</h1>
           <p>
             {course.modules.length} kapitler <span>·</span> {lessons.length}{" "}
@@ -76,6 +78,10 @@ export function CourseExplorer({ course }: { course: Course }) {
           <ArrowUpRight size={17} />
         </Link>
       </header>
+      <p className="beginner-guidance">
+        Ny i IT-sikkerhed? Start med kapitel 1, og tag én lektion ad gangen. Du
+        kan prøve spørgsmålene flere gange.
+      </p>
       <div className="explorer-progress">
         <span>Din fremgang</span>
         <progress
@@ -157,7 +163,10 @@ export function CourseExplorer({ course }: { course: Course }) {
             </span>
             <div>
               <h2 id="chapter-title">{chapter.title}</h2>
-              <p>Vælg en lektion. Læs forklaringen, og prøv quizzen.</p>
+              <p>
+                {guide?.intro ||
+                  "Vælg en lektion. Læs forklaringen, og prøv spørgsmålene."}
+              </p>
             </div>
           </div>
           <div className="chapter-lessons">
@@ -178,22 +187,31 @@ export function CourseExplorer({ course }: { course: Course }) {
                 </span>
                 <span>
                   <strong>{lesson.title}</strong>
-                  <small>{lesson.minutes} min · Forklaring + quiz</small>
+                  <small>
+                    Ca. {lesson.minutes} min · Læs og prøv spørgsmål
+                  </small>
                 </span>
-                <ArrowUpRight size={19} aria-hidden="true" />
+                <span className="lesson-open">
+                  Læs lektion <ArrowUpRight size={19} aria-hidden="true" />
+                </span>
               </Link>
             ))}
           </div>
-          <div className="chapter-concepts">
-            <span>BEGREBER I KAPITLET</span>
-            <div>
-              {[...new Set(chapter.lessons.flatMap((l) => l.concepts))]
-                .slice(0, 7)
-                .map((c) => (
-                  <span key={c}>{c}</span>
+          {guide && (
+            <details className="chapter-glossary" key={selected}>
+              <summary>
+                Ord, du møder i dette kapitel <span>Se forklaringer</span>
+              </summary>
+              <dl>
+                {guide.terms.map(([term, meaning]) => (
+                  <div key={term}>
+                    <dt>{term}</dt>
+                    <dd>{meaning}</dd>
+                  </div>
                 ))}
-            </div>
-          </div>
+              </dl>
+            </details>
+          )}
           <footer className="chapter-switcher">
             <button
               type="button"
