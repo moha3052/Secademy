@@ -18,3 +18,9 @@ Forsidens rettighedsøvelse er interaktiv: ændring af r/w/x opdaterer chmod-væ
 Alle hovedsider deler navigation, farver, kort, knapper og typografi. Mobilvisningen får en udfoldelig kursusoversigt. Kodeblokke kan fokuseres og scrolles med tastatur. Lyst/mørkt tema og reduceret bevægelse er understøttet.
 
 Farvetokens og layouts ligger i `src/app/globals.css`. Skærmbilleder i `docs/screenshots` dokumenterer den implementerede version.
+
+## Kompakt kursusoversigt
+
+Begge fag bruger nu en kapitelvælger med fag- og kapitelikoner. Kun det valgte kapitels lektioner vises, og navigationen skifter indhold uden at hoppe ned ad siden. Desktopvisningen er kontrolleret ved 1366 × 768 uden lodret scrolling for samtlige kapitler. Mobil bruger en kompakt kapitelmenu og tillader naturlig scrolling på små skærme og ved tekstforstørrelse.
+
+[Systemsikkerhed](screenshots/system-security-overview.png) · [Netværkssikkerhed](screenshots/network-security-overview.png)
